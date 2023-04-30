@@ -21,6 +21,7 @@ public class Super implements Repository {
         product.setName(resultSet.getString("nombre"));
         product.setPrice(resultSet.getDouble("precio"));
         product.setDate(resultSet.getDate("fecha_registro").toLocalDate());
+        product.setCategoria_id(resultSet.getInt("id_categorias"));
         return product;
     }
 
@@ -55,12 +56,13 @@ public class Super implements Repository {
     }
 
     @Override
-    public void save(Object nombre, Object precio, Object fecha) {
-        String sentencia = "INSERT INTO productos(nombre,precio,fecha_registro) values(?,?,?)";
+    public void save(Object nombre, Object precio, Object fecha,Object category) {
+        String sentencia = "INSERT INTO productos(nombre,precio,fecha_registro,id_categorias) values(?,?,?,?)";
         try (PreparedStatement preparedStatement = getConnection().prepareStatement(sentencia)){
            preparedStatement.setString(1,nombre.toString());
            preparedStatement.setDouble(2,Double.parseDouble(precio.toString()));
            preparedStatement.setDate(3, Date.valueOf(fecha.toString()));
+           preparedStatement.setInt(4,Integer.parseInt(category.toString()));
            preparedStatement.executeUpdate();
            mfc.setList(new Super().list());
         }catch (SQLException e){
@@ -100,7 +102,7 @@ public class Super implements Repository {
         list.forEach(System.out::println);
         System.out.println("");
         System.out.println("Agregamos Dron 230 2023-09-01 ");
-        new Super().save("Dron",230,"2023-09-01");
+        new Super().save("Dron",230,"2023-09-01",1);
         list.forEach(System.out::println);
         System.out.println("");
         System.out.println("Obtenemos el id 1");
@@ -111,7 +113,6 @@ public class Super implements Repository {
         System.out.println("Actualizamos el Id numero 3 con el producto  carro ");
         new Super().Update(3l,"carro");
         list.forEach(System.out::println);
-
     }
     }
 

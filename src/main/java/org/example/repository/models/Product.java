@@ -17,6 +17,7 @@ public class Product {
 
     private LocalDate date;
 
+    private int categoria_id;
     public Long getId() {
         return id;
     }
@@ -47,5 +48,13 @@ public class Product {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public int getCategoria_id() {
+        return categoria_id;
+    }
+
+    public void setCategoria_id(int categoria_id) {
+        this.categoria_id = categoria_id;
     }
 }
